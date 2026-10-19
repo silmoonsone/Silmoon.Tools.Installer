@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Silmoon.Tools.WindowsInstallerMaker (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Silmoon.Tools.WindowsInstallerMaker (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

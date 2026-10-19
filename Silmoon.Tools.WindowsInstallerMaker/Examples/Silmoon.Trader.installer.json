@@ -1,0 +1,113 @@
+﻿{
+  "schemaVersion": 1,
+  "productId": "Silmoon.Trading.Client.WindowsClient",
+  "displayName": "Silmoon Trading",
+  "publisher": "Silmoon",
+  "version": "0.1.0-preview.2",
+  "publishDirectory": "..\\..\\..\\Silmoon.Trading.Client\\_installer_build\\artifacts\\20261019-162647-0.1.0-preview.1-56bbd618\\publish",
+  "mainExecutable": "Silmoon.Trading.Client.WindowsClient.exe",
+  "outputDirectory": "..\\artifacts\\trader",
+  "architecture": "x64",
+  "channel": "win-x64-preview",
+  "iconPath": "",
+  "desktopShortcut": true,
+  "startMenuShortcut": true,
+  "installScope": "currentUser",
+  "distributionMode": "fullApplication",
+  "updateUrl": "",
+  "releaseNotesPath": "Silmoon.Trader.release-notes.md",
+  "signingMode": "none",
+  "expectedVelopackVersion": "1.2.161",
+  "dependencies": [
+    {
+      "id": "dotnet-runtime",
+      "name": ".NET 10 Runtime（应用自包含）",
+      "kind": "dotNetRuntime",
+      "delivery": "bundled",
+      "minimumVersion": "10.0.13",
+      "architecture": "x64",
+      "minimumWindowsVersion": "",
+      "detection": "",
+      "downloadUrl": "",
+      "offlineInstallerPath": "",
+      "sha256": "",
+      "expectedSigner": "",
+      "expectedInstallerVersion": "",
+      "installArguments": [],
+      "successExitCodes": [
+        0
+      ],
+      "rebootExitCodes": [
+        1641,
+        3010
+      ],
+      "requiresElevation": false,
+      "rebootPolicy": "ifRequired",
+      "frameworkId": "",
+      "advancedDevelopmentTool": false,
+      "notes": "由现有 Release publish 携带普通 JIT Runtime；不是 .NET SDK。"
+    },
+    {
+      "id": "windows-app-sdk",
+      "name": "Windows App SDK（应用自包含）",
+      "kind": "windowsAppSdk",
+      "delivery": "bundled",
+      "minimumVersion": "2.5.1",
+      "architecture": "x64",
+      "minimumWindowsVersion": "",
+      "detection": "",
+      "downloadUrl": "",
+      "offlineInstallerPath": "",
+      "sha256": "",
+      "expectedSigner": "",
+      "expectedInstallerVersion": "",
+      "installArguments": [],
+      "successExitCodes": [
+        0
+      ],
+      "rebootExitCodes": [
+        1641,
+        3010
+      ],
+      "requiresElevation": false,
+      "rebootPolicy": "ifRequired",
+      "frameworkId": "",
+      "advancedDevelopmentTool": false,
+      "notes": "现有发布基线 WindowsAppSDKSelfContained=true。"
+    },
+    {
+      "id": "webview2-evergreen-x64",
+      "name": "WebView2 Evergreen Standalone x64（独立离线安装器）",
+      "kind": "webView2",
+      "delivery": "offlineSidecar",
+      "minimumVersion": "",
+      "architecture": "x64",
+      "minimumWindowsVersion": "",
+      "detection": "目标机先检查 WebView2 Evergreen Runtime；缺失时用户手动运行随附微软离线安装器。此工具不执行目标机检测。",
+      "downloadUrl": "https://go.microsoft.com/fwlink/?LinkId=2124701",
+      "offlineInstallerPath": "..\\..\\..\\Silmoon.Trading.Client\\_installer_build\\artifacts\\prerequisites\\MicrosoftEdgeWebView2RuntimeInstallerX64.exe",
+      "sha256": "0625FB5C1E75BE58A164E14F95AA58A3E5BADB859B3D17C952385F3E4A9FF3E8",
+      "expectedSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "expectedInstallerVersion": "1.3.287.9",
+      "installArguments": [
+        "/silent",
+        "/install"
+      ],
+      "successExitCodes": [
+        0
+      ],
+      "rebootExitCodes": [
+        1641,
+        3010
+      ],
+      "requiresElevation": false,
+      "rebootPolicy": "ifRequired",
+      "frameworkId": "",
+      "advancedDevelopmentTool": false,
+      "notes": "安装器文件版本不是浏览器 Runtime 版本；与 Setup 一起交付，缺失时先手动安装，不是内嵌自动串联。"
+    }
+  ],
+  "notes": "Silmoon Trader 演示。publishDirectory 与 offlineInstallerPath 是本机已有输出的示例相对路径；换机器请替换。产品 ID、渠道和架构保持现有安装身份。个人数据位于安装目录之外，工具不读取或删除。",
+  "preserveUserData": true,
+  "generateDelta": false
+}

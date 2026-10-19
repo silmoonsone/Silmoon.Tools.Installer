@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="NewButton.Label" xml:space="preserve"><value>新建</value></data>
+  <data name="OpenButton.Label" xml:space="preserve"><value>打开</value></data>
+  <data name="SaveButton.Label" xml:space="preserve"><value>保存</value></data>
+  <data name="SaveAsButton.Label" xml:space="preserve"><value>另存为</value></data>
+  <data name="ValidateButton.Label" xml:space="preserve"><value>验证项目</value></data>
+  <data name="BuildButton.Label" xml:space="preserve"><value>生成安装包</value></data>
+  <data name="ConfigPath.Header" xml:space="preserve"><value>安装项目文件</value></data>
+  <data name="ConfigPath.PlaceholderText" xml:space="preserve"><value>粘贴 .json 路径，或使用上方打开按钮</value></data>
+  <data name="OpenPathButton.Content" xml:space="preserve"><value>加载路径</value></data>
+  <data name="NavFiles.Content" xml:space="preserve"><value>项目与文件</value></data>
+  <data name="NavProduct.Content" xml:space="preserve"><value>产品与安装</value></data>
+  <data name="NavDependencies.Content" xml:space="preserve"><value>依赖组件</value></data>
+  <data name="NavDistribution.Content" xml:space="preserve"><value>分发与边界</value></data>
+  <data name="NavBuild.Content" xml:space="preserve"><value>构建日志</value></data>
+  <data name="Label18.Text" xml:space="preserve"><value>项目与文件</value></data>
+  <data name="Label19.Text" xml:space="preserve"><value>从已经发布的 Windows 应用创建安装包。相对路径以项目 JSON 所在目录为基准，主 EXE 以 publish 目录为基准。</value></data>
+  <data name="PublishDirectory.Header" xml:space="preserve"><value>Publish 目录</value></data>
+  <data name="BrowsePublish.Content" xml:space="preserve"><value>浏览…</value></data>
+  <data name="MainExecutable.Header" xml:space="preserve"><value>主 EXE（publish 内相对路径）</value></data>
+  <data name="BrowseMain.Content" xml:space="preserve"><value>浏览…</value></data>
+  <data name="OutputDirectory.Header" xml:space="preserve"><value>输出目录</value></data>
+  <data name="BrowseOutput.Content" xml:space="preserve"><value>浏览…</value></data>
+  <data name="AnalyzeButton.Content" xml:space="preserve"><value>分析发布目录</value></data>
+  <data name="Label32.Text" xml:space="preserve"><value>分析与验证结果</value></data>
+  <data name="ProjectNotes.Header" xml:space="preserve"><value>项目备注</value></data>
+  <data name="Label35.Text" xml:space="preserve"><value>产品与安装</value></data>
+  <data name="Label36.Message" xml:space="preserve"><value>产品 ID、渠道和架构共同影响安装与更新身份。已有安装的产品请保持身份稳定。</value></data>
+  <data name="ProductId.Header" xml:space="preserve"><value>产品 ID</value></data>
+  <data name="DisplayName.Header" xml:space="preserve"><value>显示名称</value></data>
+  <data name="Publisher.Header" xml:space="preserve"><value>发布者</value></data>
+  <data name="Version.Header" xml:space="preserve"><value>版本（例如 1.0.0-preview.1）</value></data>
+  <data name="Architecture.Header" xml:space="preserve"><value>目标架构</value></data>
+  <data name="Channel.Header" xml:space="preserve"><value>发布渠道</value></data>
+  <data name="IconPath.Header" xml:space="preserve"><value>安装器图标（.ico，可选）</value></data>
+  <data name="BrowseIcon.Content" xml:space="preserve"><value>浏览…</value></data>
+  <data name="DesktopShortcut.Content" xml:space="preserve"><value>创建桌面快捷方式</value></data>
+  <data name="StartMenuShortcut.Content" xml:space="preserve"><value>创建开始菜单快捷方式</value></data>
+  <data name="InstallScope.Header" xml:space="preserve"><value>安装范围</value></data>
+  <data name="Label49.Text" xml:space="preserve"><value>当前 Velopack 引擎仅支持当前用户安装。选择尚未支持的选项会阻止构建。</value></data>
+  <data name="ExpectedVelopackVersion.Header" xml:space="preserve"><value>要求的 Velopack 工具与应用 SDK 版本</value></data>
+  <data name="Label52.Text" xml:space="preserve"><value>依赖组件</value></data>
+  <data name="Label53.Message" xml:space="preserve"><value>离线安装器作为 prerequisites 同目录附件交付，需用户手动安装；不会嵌入 Setup.exe 或自动提权执行。在线安装依赖需要网络。</value></data>
+  <data name="DependencyKind.Header" xml:space="preserve"><value>组件类别</value></data>
+  <data name="DependencyDelivery.Header" xml:space="preserve"><value>交付方式</value></data>
+  <data name="AddDependency.Content" xml:space="preserve"><value>添加</value></data>
+  <data name="Label59.Text" xml:space="preserve"><value>依赖定义（JSON 高级编辑）</value></data>
+  <data name="Label60.Text" xml:space="preserve"><value>可编辑最低版本、检测依据、下载来源、离线文件、SHA256、签名发布者、安装器版本、参数、退出码、提权及重启策略。删除数组中的对象即可移除依赖；全部修改会参与保存和构建验证。</value></data>
+  <data name="ApplyDependencies.Content" xml:space="preserve"><value>校验 JSON 并刷新列表</value></data>
+  <data name="BrowseDependency.Content" xml:space="preserve"><value>选择最后一项的离线安装器…</value></data>
+  <data name="Label62.Text" xml:space="preserve"><value>在线安装仅接受引擎支持的微软框架 ID。自定义组件、Windows App SDK 和数据库服务不提供自动安装适配。开发用 .NET SDK / Windows SDK 必须明确标为高级选项。</value></data>
+  <data name="Label65.Text" xml:space="preserve"><value>分发与支持边界</value></data>
+  <data name="DistributionMode.Header" xml:space="preserve"><value>分发模式</value></data>
+  <data name="Label66.Text" xml:space="preserve"><value>第一版生成 Windows 完整应用 Setup.exe、完整更新包及版本清单。小型在线入口、差分更新、MSI、macOS 和 Linux 构建尚未实现；不能将 Windows 产物转换为跨平台应用。</value></data>
+  <data name="UpdateUrl.Header" xml:space="preserve"><value>更新源 HTTPS 地址（仅保存配置，不改写应用）</value></data>
+  <data name="ReleaseNotesPath.Header" xml:space="preserve"><value>版本说明 Markdown 文件（可选）</value></data>
+  <data name="BrowseReleaseNotes.Content" xml:space="preserve"><value>浏览…</value></data>
+  <data name="GenerateDelta.Content" xml:space="preserve"><value>生成差分包（尚未支持，启用会阻止构建）</value></data>
+  <data name="SigningMode.Header" xml:space="preserve"><value>代码签名</value></data>
+  <data name="Label71.Text" xml:space="preserve"><value>第一版输出未签名包。外部签名尚未实现，选择后会阻止构建。项目文件不存储私钥、密码或访问令牌。</value></data>
+  <data name="PreserveUserData.Content" xml:space="preserve"><value>保留用户数据（必须；不添加卸载数据删除钩子）</value></data>
+  <data name="Label72.Title" xml:space="preserve"><value>目标应用的一次性接入</value></data>
+  <data name="Label72.Message" xml:space="preserve"><value>主程序必须在 UI 启动前调用 VelopackApp.Build().SetArgs(args).Run()。本工具保留 VeloAppCheck，不会自动修改业务代码。检测到 SDK 引用不代表已具备安全自动更新。</value></data>
+  <data name="Label73.Text" xml:space="preserve"><value>在线更新仍需目标应用实现更新地址、更新 UI 和安全退出流程。不会启用后台升级、开机自启或强杀目标应用。用户数据库、源码、脚本及 Cookie 等持久数据应放在 current 等升级替换目录之外。</value></data>
+  <data name="Label82.Text" xml:space="preserve"><value>构建日志</value></data>
+  <data name="CancelBuildButton.Content" xml:space="preserve"><value>取消构建</value></data>
+  <data name="OpenOutputButton.Content" xml:space="preserve"><value>打开输出目录</value></data>
+  <data name="SetupPath.Header" xml:space="preserve"><value>已验证的最终 Setup.exe（失败或取消时为空）</value></data>
+  <data name="Message98" xml:space="preserve"><value>新建项目：选择 publish 目录和主 EXE，然后配置产品。</value></data>
+  <data name="Message99" xml:space="preserve"><value>尚未分析。静态检查无法发现所有动态加载依赖，请补充依赖配置。</value></data>
+  <data name="Message100" xml:space="preserve"><value>准备就绪</value></data>
+  <data name="Message101" xml:space="preserve"><value>有未保存修改</value></data>
+  <data name="Message102" xml:space="preserve"><value>已保存 / 无修改</value></data>
+  <data name="Message103" xml:space="preserve"><value>依赖 JSON 必须是数组，不能为 null。</value></data>
+  <data name="Message104" xml:space="preserve"><value>尚未分析。</value></data>
+  <data name="Message105" xml:space="preserve"><value>已新建安装项目。</value></data>
+  <data name="Message106" xml:space="preserve"><value>请输入安装项目 JSON 路径。</value></data>
+  <data name="Message107" xml:space="preserve"><value>项目已加载；请分析当前发布目录。</value></data>
+  <data name="Message108" xml:space="preserve"><value>取消当前构建？</value></data>
+  <data name="Message109" xml:space="preserve"><value>将取消本工具启动的打包进程。取消完成后可再次关闭窗口。</value></data>
+  <data name="Message110" xml:space="preserve"><value>取消构建</value></data>
+  <data name="Message111" xml:space="preserve"><value>请先添加依赖。所选文件会填入最后一项依赖。</value></data>
+  <data name="Message112" xml:space="preserve"><value>依赖已添加。请在下方 JSON 中补充必填元数据，再验证项目。</value></data>
+  <data name="Message113" xml:space="preserve"><value>依赖 JSON 语法有效。构建前还会校验语义及实际文件。</value></data>
+  <data name="Message114" xml:space="preserve"><value>目录分析完成。建议不会自动改变产品身份或依赖配置。</value></data>
+  <data name="Message115" xml:space="preserve"><value>项目校验通过。构建时仍会验证实际文件、依赖和 Velopack 生命周期。</value></data>
+  <data name="Message116" xml:space="preserve"><value>项目校验通过，可开始构建。</value></data>
+  <data name="Message117" xml:space="preserve"><value>项目校验失败，请查看验证结果。</value></data>
+  <data name="Message118" xml:space="preserve"><value>构建进行中；目标应用不会被启动。请在构建日志页查看进度。</value></data>
+  <data name="Message119" xml:space="preserve"><value>已取消</value></data>
+  <data name="Message120" xml:space="preserve"><value>构建成功</value></data>
+  <data name="Message121" xml:space="preserve"><value>构建失败</value></data>
+  <data name="Message122" xml:space="preserve"><value>构建失败</value></data>
+  <data name="Message123" xml:space="preserve"><value>正在取消</value></data>
+  <data name="Message124" xml:space="preserve"><value>安装项目 JSON</value></data>
+  <data name="Message125" xml:space="preserve"><value>保存项目修改？</value></data>
+  <data name="Message126" xml:space="preserve"><value>当前安装项目有未保存的修改。</value></data>
+  <data name="Message127" xml:space="preserve"><value>保存</value></data>
+  <data name="Message128" xml:space="preserve"><value>放弃修改</value></data>
+  <data name="Message129" xml:space="preserve"><value>取消</value></data>
+  <data name="Message130" xml:space="preserve"><value>取消</value></data>
+  <data name="ProjectSaved" xml:space="preserve"><value>项目已保存：{0}</value></data>
+  <data name="ProjectLoaded" xml:space="preserve"><value>已加载 {0}。</value></data>
+  <data name="PreparingBuild" xml:space="preserve"><value>正在准备构建</value></data>
+  <data name="BuildFinished" xml:space="preserve"><value>{0} · 退出码 {1}
+{2}
+日志：{3}</value></data>
+  <data name="ErrorDetail" xml:space="preserve"><value>[错误] {0}</value></data>
+  <data name="AnalysisSummary" xml:space="preserve"><value>架构：{0} · TFM：{1} · RID：{2}
+.NET 自包含：{3} · Windows App SDK 自包含：{4}
+Velopack 引用：{5} {6}
+文件产品：{7} · 文件版本：{8}
+
+</value></data>
+</root>

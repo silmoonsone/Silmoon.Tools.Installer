@@ -1,2 +1,15 @@
 <Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Silmoon.Tools.WindowsInstallerMaker/Silmoon.Tools.WindowsInstallerMaker.csproj" />
+  <Folder Name="/解决方案项/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="AGENTS.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Silmoon.Tools.WindowsInstallerMaker.Core/Silmoon.Tools.WindowsInstallerMaker.Core.csproj" />
+  <Project Path="Silmoon.Tools.WindowsInstallerMaker.Tests/Silmoon.Tools.WindowsInstallerMaker.Tests.csproj" />
 </Solution>
