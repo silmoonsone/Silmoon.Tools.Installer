@@ -4,9 +4,9 @@
 
 - 根目录唯一解决方案为 `Silmoon.Tools.Installer.slnx`。保持经典单解决方案、同级多个 C# 项目的结构，不新增 `src/`、`tests/` 包装目录或第二个解决方案。
 - `Silmoon.Tools.Installer.WindowsMaker/` 是 unpackaged WinUI 3 MVVM 主项目（`WindowsPackageType=None`、`win-x64`）；示例放在其 `Examples/`，构建和开发启动脚本放在其 `Scripts/`。
-- `Silmoon.Tools.Installer.WindowsMaker.Core/` 负责配置、路径、目录分析、依赖验证和安装引擎，不引用 WinUI 或 UI 类型。
-- `Silmoon.Tools.Installer.WindowsMaker.Tests/` 是 Core 测试项目；UI 和真实产物验证脚本放在其 `Scripts/`。
-- 工具名称、主项目和主命名空间保持 `Silmoon.Tools.Installer.WindowsMaker`。公共技术说明放在 `_markdown/`。安装包与离线依赖输出放在 `Silmoon.Tools.Installer.WindowsMaker/artifacts/`，测试结果、截图和验证日志放在 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/`；均被 Git 忽略，不在根目录新增 `artifacts/`。
+- `Silmoon.Tools.Installer.Core/` 负责配置、路径、目录分析、依赖验证和安装引擎，不引用 WinUI 或 UI 类型。
+- `Silmoon.Tools.Installer.Tests/` 是 Core 测试项目；UI 和真实产物验证脚本放在其 `Scripts/`。解决方案中的 `Testing` 是容纳测试项目的虚拟分组，磁盘上的三个 C# 项目仍位于同一级。
+- 工具名称、主项目和主命名空间保持 `Silmoon.Tools.Installer.WindowsMaker`。公共技术说明放在 `_markdown/`。安装包与离线依赖输出放在 `Silmoon.Tools.Installer.WindowsMaker/artifacts/`，测试结果、截图和验证日志放在 `Silmoon.Tools.Installer.Tests/artifacts/`；均被 Git 忽略，不在根目录新增 `artifacts/`。
 
 ## 编辑与验证
 
@@ -18,7 +18,7 @@
 
 ```powershell
 dotnet build ./Silmoon.Tools.Installer.slnx -c Release -p:Platform=x64
-dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release
+dotnet run --project ./Silmoon.Tools.Installer.Tests -c Release
 ```
 
 需要构建并启动 GUI 时使用 `Silmoon.Tools.Installer.WindowsMaker/Scripts/Build.ps1 -Run`；启动已有输出使用同目录的 `Start-WindowsMaker.ps1 -Configuration Release`。两者通过 WinApp 项目模式直接启动 unpackaged 输出，无需开发模式或 MSIX 注册；WinApp 仅用于开发。实际修改 UI 后使用适用的 WinUI 技能检查设计、API、代码和交互；只对本工具进程执行 UI 验证。带 `--demo` 的测试和真实打包需要准备输入文件，并替换示例中的本机路径。

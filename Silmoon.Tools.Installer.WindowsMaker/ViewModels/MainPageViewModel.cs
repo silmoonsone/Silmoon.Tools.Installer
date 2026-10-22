@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Silmoon.Tools.Installer.WindowsMaker.Core;
 using Silmoon.Tools.Installer.WindowsMaker.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Silmoon.Tools.Installer.Core;
 
 namespace Silmoon.Tools.Installer.WindowsMaker.ViewModels;
 

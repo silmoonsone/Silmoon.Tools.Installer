@@ -7,6 +7,6 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);artifacts/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Silmoon.Tools.Installer.WindowsMaker.Core\Silmoon.Tools.Installer.WindowsMaker.Core.csproj" />
+    <ProjectReference Include="..\Silmoon.Tools.Installer.Core\Silmoon.Tools.Installer.Core.csproj" />
   </ItemGroup>
 </Project>

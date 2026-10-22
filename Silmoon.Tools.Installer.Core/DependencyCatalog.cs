@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+namespace Silmoon.Tools.Installer.Core;
 
 public static class DependencyCatalog
 {

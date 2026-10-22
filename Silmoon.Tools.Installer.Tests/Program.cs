@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
-using Silmoon.Tools.Installer.WindowsMaker.Core;
+using Silmoon.Tools.Installer.Core;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Tests;
+namespace Silmoon.Tools.Installer.Tests;
 
 internal static class Program
 {
@@ -149,7 +149,7 @@ internal static class Program
     {
         for (DirectoryInfo? directory = new(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "Silmoon.Tools.Installer.WindowsMaker.Tests.csproj"))) return directory.FullName;
+            if (File.Exists(Path.Combine(directory.FullName, "Silmoon.Tools.Installer.Tests.csproj"))) return directory.FullName;
         }
         throw new DirectoryNotFoundException("Cannot locate the test project directory for artifacts.");
     }

@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Silmoon.Tools.Installer.WindowsMaker.Core;
+using Silmoon.Tools.Installer.Core;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Tests;
+namespace Silmoon.Tools.Installer.Tests;
 
 internal static class RuntimeRegressionTests
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+namespace Silmoon.Tools.Installer.Core;
 
 public enum TargetArchitecture
 {

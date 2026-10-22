@@ -1,4 +1,4 @@
-﻿namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+﻿namespace Silmoon.Tools.Installer.Core;
 
 public sealed record BuildProgress(string Stage, string Message, double? Percent = null, bool IsError = false);
 

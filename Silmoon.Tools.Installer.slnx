@@ -3,6 +3,9 @@
     <Platform Name="Any CPU" />
     <Platform Name="x64" />
   </Configurations>
+  <Folder Name="/Testing/">
+    <Project Path="Silmoon.Tools.Installer.Tests/Silmoon.Tools.Installer.Tests.csproj" />
+  </Folder>
   <Folder Name="/解决方案项/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
@@ -11,8 +14,7 @@
     <File Path="README.md" />
     <File Path="LICENSE" />
   </Folder>
-  <Project Path="Silmoon.Tools.Installer.WindowsMaker.Core/Silmoon.Tools.Installer.WindowsMaker.Core.csproj" />
-  <Project Path="Silmoon.Tools.Installer.WindowsMaker.Tests/Silmoon.Tools.Installer.WindowsMaker.Tests.csproj" />
+  <Project Path="Silmoon.Tools.Installer.Core/Silmoon.Tools.Installer.Core.csproj" />
   <Project Path="Silmoon.Tools.Installer.WindowsMaker/Silmoon.Tools.Installer.WindowsMaker.csproj">
     <Platform Project="x64" />
   </Project>

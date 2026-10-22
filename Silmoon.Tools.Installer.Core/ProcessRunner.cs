@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+namespace Silmoon.Tools.Installer.Core;
 
 public sealed class ProcessRequest
 {

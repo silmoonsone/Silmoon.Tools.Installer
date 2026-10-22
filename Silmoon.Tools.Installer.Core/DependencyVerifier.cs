@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+namespace Silmoon.Tools.Installer.Core;
 
 public sealed record VerifiedDependency(string Id, string Name, string FileName, string Sha256, string Signer, string InstallerVersion, string SourceUrl, string MinimumRuntimeVersion);
 

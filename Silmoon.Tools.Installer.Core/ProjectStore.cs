@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
-namespace Silmoon.Tools.Installer.WindowsMaker.Core;
+namespace Silmoon.Tools.Installer.Core;
 
 public sealed class ProjectStore
 {

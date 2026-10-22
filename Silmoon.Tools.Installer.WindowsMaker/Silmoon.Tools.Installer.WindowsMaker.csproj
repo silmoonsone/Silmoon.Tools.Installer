@@ -28,7 +28,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinUIAnalyzer" Version="0.7.1" PrivateAssets="all" />
-    <ProjectReference Include="..\Silmoon.Tools.Installer.WindowsMaker.Core\Silmoon.Tools.Installer.WindowsMaker.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Silmoon.Tools.Installer.Core\Silmoon.Tools.Installer.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
