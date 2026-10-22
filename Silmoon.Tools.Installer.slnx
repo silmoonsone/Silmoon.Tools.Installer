@@ -9,6 +9,7 @@
     <File Path=".gitignore" />
     <File Path="AGENTS.md" />
     <File Path="README.md" />
+    <File Path="LICENSE" />
   </Folder>
   <Project Path="Silmoon.Tools.Installer.WindowsMaker.Core/Silmoon.Tools.Installer.WindowsMaker.Core.csproj" />
   <Project Path="Silmoon.Tools.Installer.WindowsMaker.Tests/Silmoon.Tools.Installer.WindowsMaker.Tests.csproj" />

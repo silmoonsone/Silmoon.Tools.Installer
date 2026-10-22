@@ -377,3 +377,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local secrets and private signing material
+.env
+.env.*
+!.env.example
+*.p12
+*.pem
+*.key
+*.snk
+
+# Local repository history backups
+*.bundle

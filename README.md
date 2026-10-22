@@ -2,6 +2,10 @@
 
 C# / WinUI 3 原生桌面安装项目编辑器，使用 MVVM 和独立于 WinUI 的 Core，将已有 Windows publish 目录交给 Velopack 生成真实 Setup.exe。配置以带 `schemaVersion` 的 JSON 保存，可重新打开、编辑并重复构建。
 
+## 许可证
+
+本项目自有代码和文档采用 [MIT License](LICENSE)。第三方组件、模板资源和打包工具保留各自的许可证；本项目的 MIT 许可证不替代它们的授权条款。所用版本、默认图标来源及分发说明见 [第三方许可说明](_markdown/third-party-notices.md)。
+
 ## 开发与运行
 
 克隆仓库后，在仓库根目录执行下面的命令。开发环境需要：
