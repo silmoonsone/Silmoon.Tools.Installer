@@ -1,4 +1,4 @@
-﻿# Silmoon.Tools.WindowsInstallerMaker
+﻿# Silmoon.Tools.Installer.WindowsMaker
 
 C# / WinUI 3 原生桌面安装项目编辑器，使用 MVVM 和独立于 WinUI 的 Core，将已有 Windows publish 目录交给 Velopack 生成真实 Setup.exe。配置以带 `schemaVersion` 的 JSON 保存，可重新打开、编辑并重复构建。
 
@@ -7,37 +7,45 @@ C# / WinUI 3 原生桌面安装项目编辑器，使用 MVVM 和独立于 WinUI 
 克隆仓库后，在仓库根目录执行下面的命令。开发环境需要：
 
 - Windows x64、.NET 10 SDK、Windows SDK 与 WinUI 构建环境。
-- WinApp CLI 0.7+ 用于开发启动、控件/API 查询和 UI 验证。
+- WinApp CLI 0.7+ 用于开发启动、控件/API 查询和 UI 验证，仅为开发工具，不是终端用户的运行依赖。
 - 打包电脑需要全局 `vpk`，版本须与目标应用及项目中的 `expectedVelopackVersion` 完全相同。本次基线是 **1.2.161**，工具不会自动安装或升级 vpk。
-- 当前 GUI 使用 packaged 开发启动；开发模式须事先启用。脚本不启用开发模式、不导入证书信任、不修改 Windows 功能。
+- 当前 GUI 使用 unpackaged 桌面项目（`WindowsPackageType=None`），直接启动构建输出，无需开发模式或 MSIX 开发注册。脚本不导入证书信任、不修改 Windows 功能。
 
 ```powershell
 dotnet build ./Silmoon.Tools.Installer.slnx -c Release -p:Platform=x64
-dotnet run --project ./Silmoon.Tools.WindowsInstallerMaker.Tests -c Release
+dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release
 ```
 
 构建、运行 Core 测试并启动 GUI：
 
 ```powershell
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker/Scripts/Build.ps1 -Configuration Release -Run
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker/Scripts/Build.ps1 -Configuration Release -Run
 ```
 
-或从 Visual Studio 打开当前目录的 `Silmoon.Tools.Installer.slnx`，选择 **x64**。项目使用固定包版本、普通 JIT 和多文件输出；不启用裁剪、AOT 或单文件。
+或从 Visual Studio 打开当前目录的 `Silmoon.Tools.Installer.slnx`，将 WindowsMaker 设为启动项目，选择 **Debug / Release** 和 **x64**。解决方案同时保留 **Any CPU** 配置；两种解决方案平台均将 WinUI 主项目映射为 **x64**，Core 和 Tests 映射为 **Any CPU**。主项目固定为 `win-x64`，不会通过解决方案的 Any CPU 配置生成其他架构。
 
-首次完成开发注册后，可从开始菜单打开程序，或运行 `Silmoon.Tools.WindowsInstallerMaker/Scripts/Start-WindowsInstallerMaker.ps1`。该方式依赖当前电脑的开发输出，不是可复制到其他电脑的已签名安装包。
+主项目目标为 `net10.0-windows10.0.19041.0`，最低 Windows 版本设置为 `10.0.19041.0`。使用固定包版本、自包含 .NET 和 Windows App SDK、普通 JIT 和多文件输出；不启用裁剪、AOT 或单文件。项目不生成或注册 MSIX；已移除包清单和默认磁贴、商店、启动画面 PNG，`Assets/` 仅保留用于 EXE、窗口和标题栏的 `AppIcon.ico`。`app.manifest` 继续用于 Windows 兼容性和 DPI 设置。
+
+已有构建输出时，可运行下面的脚本。它通过 WinApp 的项目模式启动对应配置的 unpackaged 输出，不重新构建。开发脚本显式传入 `Platform=x64`，确保启动位置与解决方案构建输出一致：
+
+```powershell
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker/Scripts/Start-WindowsMaker.ps1 -Configuration Release
+```
+
+开发启动依赖当前电脑的构建输出；该输出尚不是工具本身可分发的已签名安装包。
 
 ## 仓库结构
 
-根目录只有一个解决方案，三个 C# 项目位于同一级。工具正式名称和主命名空间为 `Silmoon.Tools.WindowsInstallerMaker`。
+根目录只有一个解决方案，三个 C# 项目位于同一级。工具正式名称和主命名空间为 `Silmoon.Tools.Installer.WindowsMaker`。
 
 ```text
 Silmoon.Tools.Installer.slnx
-Silmoon.Tools.WindowsInstallerMaker/          WinUI 3 主项目
+Silmoon.Tools.Installer.WindowsMaker/          WinUI 3 主项目
   Examples/                                  安装项目示例与接入说明
   Scripts/                                   构建和开发启动脚本
   artifacts/                                 安装包、离线依赖与打包日志（本机）
-Silmoon.Tools.WindowsInstallerMaker.Core/     配置、分析、依赖与打包逻辑
-Silmoon.Tools.WindowsInstallerMaker.Tests/    Core 测试项目
+Silmoon.Tools.Installer.WindowsMaker.Core/     配置、分析、依赖与打包逻辑
+Silmoon.Tools.Installer.WindowsMaker.Tests/    Core 测试项目
   Scripts/                                   UI 和真实产物验证脚本
   artifacts/                                 测试结果、截图与验证日志（本机）
 _markdown/                                   公共技术说明
@@ -110,20 +118,20 @@ Core 负责配置、路径、验证、目录分析、依赖校验和进程调用
 
 仓库包含安装项目配置示例，不包含 Trader 客户端二进制、已生成的 Setup 或微软离线安装器。首版曾从 GUI 实际生成 `0.1.0-preview.2` 的 Setup，用于验证配置编辑和重复打包；本地验证结果见 [验证记录](_markdown/verification.md)。
 
-准备自己的发布产物后，加载 [Silmoon Trader 示例](Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json)，替换输入路径，修改版本号或说明，保存，再在 GUI 运行构建。示例保留原产品身份：
+准备自己的发布产物后，加载 [Silmoon Trader 示例](Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json)，替换输入路径，修改版本号或说明，保存，再在 GUI 运行构建。示例保留原产品身份：
 
 - 产品 ID：`Silmoon.Trading.Client.WindowsClient`
 - 显示名称/发布者：`Silmoon Trading` / `Silmoon`
 - 渠道/架构：`win-x64-preview` / x64
 - vpk / 目标 NuGet：`1.2.161`
 
-**需要替换的本机路径**是示例的 `publishDirectory` 和 WebView2 依赖的 `offlineInstallerPath`，它们指向兄弟客户端仓库中已有的时间戳发布输出与离线安装器。它们只存在于独立演示配置，通用 Core/GUI 不包含客户端硬编码路径。输出默认为 `Silmoon.Tools.WindowsInstallerMaker/artifacts/trader`，配置中的相对值为 `../artifacts/trader`。
+**需要替换的本机路径**是示例的 `publishDirectory` 和 WebView2 依赖的 `offlineInstallerPath`，它们指向兄弟客户端仓库中已有的时间戳发布输出与离线安装器。它们只存在于独立演示配置，通用 Core/GUI 不包含客户端硬编码路径。输出默认为 `Silmoon.Tools.Installer.WindowsMaker/artifacts/trader`，配置中的相对值为 `../artifacts/trader`。
 
 本次复用的客户端发布基线是 .NET 10、Windows App SDK 2.5.1、unpackaged、win-x64、`SelfContained=true`、`WindowsAppSDKSelfContained=true`、多文件、普通 JIT、无裁剪/AOT。工具不依赖本机 `PublishApp.pubxml`；本版也不自动重新 publish 客户端。
 
 WebView2 使用已有微软完整离线安装器及已知 SHA256，构建时复验签名和哈希。**最终 Setup 不内嵌 WebView2**。需要一起交付 `prerequisites`，缺失时先手动安装微软依赖。VC CRT 静态导入没有证据并不代表所有应用或未来版本都不需要 VC++ Runtime。
 
-客户端已保留 STAThread 并在 XAML 初始化前执行 Velopack 生命周期入口，关闭启动时自动应用更新。新应用请按 [Velopack 接入说明](Silmoon.Tools.WindowsInstallerMaker/Examples/Velopack-integration.md) 手动接入并重新发布；工具不会替用户修改业务代码。
+客户端已保留 STAThread 并在 XAML 初始化前执行 Velopack 生命周期入口，关闭启动时自动应用更新。新应用请按 [Velopack 接入说明](Silmoon.Tools.Installer.WindowsMaker/Examples/Velopack-integration.md) 手动接入并重新发布；工具不会替用户修改业务代码。
 
 ## 数据与更新
 
@@ -136,17 +144,17 @@ WebView2 使用已有微软完整离线安装器及已知 SHA256，构建时复�
 默认 Core 测试不依赖 Trader 仓库或本机发布产物：
 
 ```powershell
-dotnet run --project ./Silmoon.Tools.WindowsInstallerMaker.Tests -c Release
+dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release
 ```
 
 已准备并修改演示路径时，可额外运行真实目录分析和产物验证：
 
 ```powershell
-dotnet run --project ./Silmoon.Tools.WindowsInstallerMaker.Tests -c Release -- --demo ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker.Tests/Scripts/Verify-DemoArtifact.ps1 -ProjectFile ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json -BuildDirectory '<成功构建目录>'
+dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release -- --demo ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker.Tests/Scripts/Verify-DemoArtifact.ps1 -ProjectFile ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json -BuildDirectory '<成功构建目录>'
 ```
 
-测试覆盖配置往返、另存为路径、非法/未来配置、未支持能力、无效路径、参数边界、非零退出码和取消隔离；可选演示还覆盖真实静态分析和打包失败路径。首版记录为 Core 47/47（含演示）、GUI 11/11、原生选择器 4/4；结果、产物哈希和验收边界见 [验证记录](_markdown/verification.md)。原始测试日志、截图和结果保存在本机 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/`；安装包及其附带日志保存在 `Silmoon.Tools.WindowsInstallerMaker/artifacts/trader/`，不在源码仓库提供。每次 Core 测试将新报告写入测试项目的 `artifacts/tests/<UTC时间>-<随机ID>/core-results.json`，保留旧报告；结果目录根据测试程序集位置定位测试项目，不依赖启动工作目录。默认 UI 结果写入其 `artifacts/ui/`。
+测试覆盖配置往返、另存为路径、非法/未来配置、未支持能力、无效路径、参数边界、非零退出码和取消隔离；可选演示还覆盖真实静态分析和打包失败路径。首版记录为 Core 47/47（含演示）、GUI 11/11、原生选择器 4/4；结果、产物哈希和验收边界见 [验证记录](_markdown/verification.md)。原始测试日志、截图和结果保存在本机 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/`；安装包及其附带日志保存在 `Silmoon.Tools.Installer.WindowsMaker/artifacts/trader/`，不在源码仓库提供。每次 Core 测试将新报告写入测试项目的 `artifacts/tests/<UTC时间>-<随机ID>/core-results.json`，保留旧报告；结果目录根据测试程序集位置定位测试项目，不依赖启动工作目录。默认 UI 结果写入其 `artifacts/ui/`。
 
 已有产物和验证记录已按项目归档。历史日志、JSON 和截图保留原始内容，其中的旧绝对路径仅代表当时位置；当前目录映射及本机迁移完整性报告见 [验证记录](_markdown/verification.md)。
 

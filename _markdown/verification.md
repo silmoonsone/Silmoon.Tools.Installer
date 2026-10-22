@@ -1,6 +1,6 @@
-﻿# Silmoon.Tools.WindowsInstallerMaker 验证记录
+﻿# Silmoon.Tools.Installer.WindowsMaker 验证记录
 
-首版功能验证日期：2026-10-19，执行环境为 Windows x64 开发机。工具正式名称为 `Silmoon.Tools.WindowsInstallerMaker`；根目录唯一解决方案为 `Silmoon.Tools.Installer.slnx`，主项目、Core 类库和测试项目均位于根目录同一级。本文保留已有功能验证结果，并按当前结构给出复现命令。
+首版功能验证日期：2026-10-19，执行环境为 Windows x64 开发机。工具正式名称为 `Silmoon.Tools.Installer.WindowsMaker`；根目录唯一解决方案为 `Silmoon.Tools.Installer.slnx`，主项目、Core 类库和测试项目均位于根目录同一级。本文保留已有功能验证结果，并按当前结构给出复现命令。
 
 下列路径均相对于仓库根目录。安装包及其打包日志位于主项目的 `artifacts/`，测试结果、截图和验证日志位于测试项目的 `artifacts/`，两处均已被 Git 忽略。原始日志、截图、客户端二进制及安装器不随源码提交；文中的文件名和校验值是验证记录，不是公开下载入口。
 
@@ -8,15 +8,46 @@
 
 | 项目 | 结果 | 原始证据 |
 | --- | --- | --- |
-| Release 解决方案构建 | 0 警告、0 错误，包含启用的 WinUIAnalyzer 0.7.1 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/release-build.log` |
-| Core 自动验证 | 47/47 通过 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/tests/core-results.json` |
-| WinUI 主流程 | 11/11 通过，含真实打包 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/ui-run-2/ui-results.json` |
-| 原生打开/另存为/架构选择 | 4/4 通过 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/ui-pickers-final/picker-results.json` |
-| 界面截图审阅 | 最终批次全部 9 张已检查 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/ui-run-2/*.png` |
+| Release 解决方案构建 | 0 警告、0 错误，包含启用的 WinUIAnalyzer 0.7.1 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/release-build.log` |
+| Core 自动验证 | 47/47 通过 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/tests/core-results.json` |
+| WinUI 主流程 | 11/11 通过，含真实打包 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/ui-run-2/ui-results.json` |
+| 原生打开/另存为/架构选择 | 4/4 通过 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/ui-pickers-final/picker-results.json` |
+| 界面截图审阅 | 最终批次全部 9 张已检查 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/ui-run-2/*.png` |
 | 完整包内容 | 590 个文件与 publish 的 SHA256 完全一致 | 成功目录的 `package-content-verification.json` |
 | 离线 WebView2 | 复制前后校验 SHA256、有效 Microsoft Authenticode 签名及预期安装器文件版本 | 成功目录的 `build.log`、`dependencies.json` |
 
 开发工具版本：.NET SDK 10.0.402、WinApp CLI 0.7.1、vpk 1.2.161。GUI 使用 .NET 10、Windows App SDK 2.5.1、CommunityToolkit.Mvvm 8.4.2、普通 JIT 和自包含多文件输出。没有开启裁剪、AOT 或单文件。
+
+## 2026-10-22 命名与 unpackaged 项目对齐复验
+
+主项目已按 `Silmoon.Trading.Client.WindowsClient.csproj` 的桌面项目类型对齐：`WindowsPackageType=None`、`net10.0-windows10.0.19041.0`、最低版本 `19041`、`win-x64`，自包含 .NET 与 Windows App SDK，普通 JIT、多文件，不启用裁剪、AOT 或单文件。移除了 MSIX 模板专用构建配置，保留本工具的 Core 引用、WinUIAnalyzer、资源和 artifacts 排除规则；没有复制客户端专用依赖或自定义启动入口。
+
+解决方案的 Debug / Release × Any CPU / x64 四组配置映射均通过检查：WinUI 主项目始终为 x64，Core 和 Tests 为 Any CPU。Release / x64 与 Debug / Any CPU 实际构建均为 0 警告、0 错误；默认 Core 测试 38/38 通过。`Build.ps1 -Run` 和 `Start-WindowsMaker.ps1 -Configuration Release` 均成功直接启动 unpackaged 输出，不进行 MSIX 注册。
+
+本机证据目录为 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/rename-20261022-163939/`：
+
+| 验证 | 结果 | 证据文件 |
+| --- | --- | --- |
+| Release 构建、默认 Core 测试、启动 | 0 警告、0 错误；38/38 | `unpackaged-build-test-launch.log` |
+| Debug / Any CPU 构建 | GUI 实际为 x64；0 警告、0 错误 | `debug-anycpu-build.log` |
+| 现有输出启动脚本 | 成功启动 unpackaged GUI | `unpackaged-start-final.log` |
+| GUI 主流程 | 10/10 | `ui-final/ui-results.json` |
+| 原生打开、另存为、架构选择 | 4/4 | `pickers-final/picker-results.json` |
+| 项目有效属性与资源项 | None、x64、自包含；artifacts 未进入项目项 | `project-evaluation.json` |
+
+GUI 验证使用独立配置副本，覆盖加载、静态分析、编辑保存、重载、未保存提示、无效版本阻止构建及支持边界；最终 7 张截图均已审阅，当前浅色主题、100% DPI 下未发现本次改动引起的显示问题。早期受桌面输入干扰的批次只作为诊断保留，以 `ui-final` 和 `pickers-final` 为本次结果。
+
+本次没有重新打包或安装 Trader；已有最终 Setup 的 SHA256 仍为 `C5E422AA218BBA89BD445CD1E526696EECFD9B090674193EDF53AE4841060276`。仓库示例配置原文件未变，参考客户端仓库未修改。原有部署和更新验收边界仍适用。
+
+## 2026-10-22 模板资源清理复验
+
+删除当前 unpackaged 项目不使用的 `Package.appxmanifest` 和 8 个 MSIX 默认 PNG，并移除本机被 Git 忽略的 ARM64/x86 发布 Profile。保留的 `AppIcon.ico`、`app.manifest`、启动配置、两套语言资源和 x64 Profile 的 SHA256 均未改变。
+
+运行 `dotnet clean` 后重新执行 Release / x64 构建，结果为 0 警告、0 错误，默认 Core 测试 38/38 通过。首次启动检查发现仅指定 `--arch x64` 仍可能让 WinApp 从旧的 `bin/Release` 输出启动；现已在两个开发启动脚本中明确加入 `-p Platform=x64`。此前的启动记录保留为历史结果，不能据此证明启动的是重构后的 x64 输出。
+
+修正后已核对实际进程路径位于 `bin/x64/Release/net10.0-windows10.0.19041.0/win-x64/`。资源启动检查 3/3 通过：无包清单也可打开 unpackaged 主窗口，中文 PRI 资源正常，新输出的 `Assets/` 仅包含与源文件 SHA256 相同的 `AppIcon.ico`。最终截图已审阅。本次为资源清理验证，没有重复真实打包或完整 GUI 编辑测试。
+
+本机证据目录为 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/template-cleanup-20261022-085926Z/`，包含 `file-inventory.json`、`clean.log`、`build-test-launch.log`、`start-final.log`、`ui-smoke-final.json` 和 `startup-final.png`；前期启动路径诊断保留在同目录。既有 Setup、演示配置和历史验证产物未改动。
 
 ## 产物归档位置
 
@@ -24,31 +55,31 @@
 
 | 历史位置 | 当前位置 |
 | --- | --- |
-| 根目录 `artifacts/trader/` | `Silmoon.Tools.WindowsInstallerMaker/artifacts/trader/` |
-| 根目录 `artifacts/` 中的其余目录与文件 | `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/`，保留 `tests/`、`verification/`、`ui-*` 等原有子目录结构 |
+| 根目录 `artifacts/trader/` | `Silmoon.Tools.Installer.WindowsMaker/artifacts/trader/` |
+| 根目录 `artifacts/` 中的其余目录与文件 | `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/`，保留 `tests/`、`verification/`、`ui-*` 等原有子目录结构 |
 
 既有 Setup、依赖安装器、更新包、日志、JSON 和截图保留原始内容；因此历史记录中的旧绝对路径不会被改写。定位这些历史文件时使用上表映射，不能直接使用日志中旧位置。新的构建和验证使用本文的当前路径。
 
-本机迁移完整性报告位于 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/artifact-relocation.json`，记录逐文件的原位置、新位置及迁移前后 SHA256，核验结论以报告内容为准。报告和原始证据均不随源码提交。已有 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/tests/core-results.json` 保持原样。新 Core 测试报告写入 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/tests/<UTC时间>-<随机ID>/core-results.json`；测试通过程序集位置向上定位测试项目，输出不依赖启动工作目录。默认 UI 输出目录为 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/ui/`。
+本机迁移完整性报告位于 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/artifact-relocation.json`，记录逐文件的原位置、新位置及迁移前后 SHA256，核验结论以报告内容为准。报告和原始证据均不随源码提交。已有 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/tests/core-results.json` 保持原样。新 Core 测试报告写入 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/tests/<UTC时间>-<随机ID>/core-results.json`；测试通过程序集位置向上定位测试项目，输出不依赖启动工作目录。默认 UI 输出目录为 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/ui/`。
 
 ## 同级项目布局复验
 
-产物目录迁移完成后，56 个原有文件（共 875806724 字节）的大小与 SHA256 全部一致，两份 Setup.exe 及全部历史验证记录均保留。根目录 `artifacts/` 已不存在。迁移后 Release 构建为 0 警告、0 错误；从主项目目录启动 Core 测试仍为 47/47，并将新报告写入测试项目的独立时间戳目录，没有覆盖旧报告。两项目的 MSBuild 默认项均不包含 `artifacts/` 文件，Git 忽略规则也已验证。对应新日志为 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/artifact-layout-build.log` 和 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/artifact-layout-tests.log`。
+产物目录迁移完成后，56 个原有文件（共 875806724 字节）的大小与 SHA256 全部一致，两份 Setup.exe 及全部历史验证记录均保留。根目录 `artifacts/` 已不存在。迁移后 Release 构建为 0 警告、0 错误；从主项目目录启动 Core 测试仍为 47/47，并将新报告写入测试项目的独立时间戳目录，没有覆盖旧报告。两项目的 MSBuild 默认项均不包含 `artifacts/` 文件，Git 忽略规则也已验证。对应新日志为 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/artifact-layout-build.log` 和 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/artifact-layout-tests.log`。
 
-将三个 C# 项目整理到根目录同一级，并同步示例、脚本及项目引用路径后，重新构建 `Silmoon.Tools.Installer.slnx`：Release 为 0 警告、0 错误，Core 测试 47/47 通过。对应本机证据为 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/flat-layout-build.log` 与 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/flat-layout-tests.log`。以下 GUI 和真实打包记录仍是首版功能验证，不能将目录迁移后的编译结果当作重新完成全部部署验收。
+将三个 C# 项目整理到根目录同一级，并同步示例、脚本及项目引用路径后，重新构建 `Silmoon.Tools.Installer.slnx`：Release 为 0 警告、0 错误，Core 测试 47/47 通过。对应本机证据为 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/flat-layout-build.log` 与 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/flat-layout-tests.log`。以下 GUI 和真实打包记录仍是首版功能验证，不能将目录迁移后的编译结果当作重新完成全部部署验收。
 
 ## 实际 GUI 演示链路
 
-迁移后已通过 WinApp CLI 从新的项目路径启动 GUI，成功加载移动后的 Trader 配置并完成发布目录分析；截图 `Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/verification/flat-layout-gui.png` 已检查。该检查验证新位置的启动和路径解析，没有重复执行客户端安装或打包。
+迁移后已通过 WinApp CLI 从新的项目路径启动 GUI，成功加载移动后的 Trader 配置并完成发布目录分析；截图 `Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/verification/flat-layout-gui.png` 已检查。该检查验证新位置的启动和路径解析，没有重复执行客户端安装或打包。
 
-通过原生 WinUI 窗口加载 Silmoon Trader 安装项目配置，分析已有 publish，将安装包版本从 `0.1.0-preview.1` 编辑为 `0.1.0-preview.2`，保存、新建后重新加载，再点击构建。GUI 调用 Core 和真实 `vpk pack`，退出码为 0，产物验证完成后才展示成功。示例目前位于 `Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json`。
+通过原生 WinUI 窗口加载 Silmoon Trader 安装项目配置，分析已有 publish，将安装包版本从 `0.1.0-preview.1` 编辑为 `0.1.0-preview.2`，保存、新建后重新加载，再点击构建。GUI 调用 Core 和真实 `vpk pack`，退出码为 0，产物验证完成后才展示成功。示例目前位于 `Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json`。
 
 本次复用已有客户端 publish，没有重新发布或修改客户端源码。`preview.2` 是安装项目编辑和重复打包演示，不声称客户端业务二进制发生变化。安装身份仍为 `Silmoon.Trading.Client.WindowsClient` / `win-x64-preview` / x64。
 
 本机成功构建目录：
 
 ```text
-Silmoon.Tools.WindowsInstallerMaker/artifacts/trader/Silmoon.Trading.Client.WindowsClient-0.1.0-preview.2-win-x64-preview-20261019-094725-c1fd9fe3/
+Silmoon.Tools.Installer.WindowsMaker/artifacts/trader/Silmoon.Trading.Client.WindowsClient-0.1.0-preview.2-win-x64-preview-20261019-094725-c1fd9fe3/
 ```
 
 | 产物 | 字节数 | SHA256 |
@@ -85,22 +116,22 @@ GUI 覆盖加载、分析、编辑保存、新建后重载、未保存提示取�
 
 ```powershell
 dotnet build ./Silmoon.Tools.Installer.slnx -c Release -p:Platform=x64
-dotnet run --project ./Silmoon.Tools.WindowsInstallerMaker.Tests -c Release
+dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release
 ```
 
 完整演示需要自行准备目标应用 publish 和离线依赖，并先修改示例的路径。以下命令中的进程 ID 和成功构建目录也需要替换：
 
 ```powershell
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker/Scripts/Build.ps1 -Configuration Release -Run
-dotnet run --project ./Silmoon.Tools.WindowsInstallerMaker.Tests -c Release -- --demo ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker.Tests/Scripts/Test-UI.ps1 -AppPid <新工具进程ID> -ProjectFile ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json -ArtifactDirectory ./Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/ui-recheck -BuildDemo
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker.Tests/Scripts/Test-NativePickers.ps1 -AppPid <新工具进程ID> -ProjectFile ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json -ArtifactDirectory ./Silmoon.Tools.WindowsInstallerMaker.Tests/artifacts/picker-recheck
-pwsh -NoProfile -File ./Silmoon.Tools.WindowsInstallerMaker.Tests/Scripts/Verify-DemoArtifact.ps1 -ProjectFile ./Silmoon.Tools.WindowsInstallerMaker/Examples/Silmoon.Trader.installer.json -BuildDirectory '<成功构建目录>'
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker/Scripts/Build.ps1 -Configuration Release -Run
+dotnet run --project ./Silmoon.Tools.Installer.WindowsMaker.Tests -c Release -- --demo ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker.Tests/Scripts/Test-UI.ps1 -AppPid <新工具进程ID> -ProjectFile ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json -ArtifactDirectory ./Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/ui-recheck -BuildDemo
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker.Tests/Scripts/Test-NativePickers.ps1 -AppPid <新工具进程ID> -ProjectFile ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json -ArtifactDirectory ./Silmoon.Tools.Installer.WindowsMaker.Tests/artifacts/picker-recheck
+pwsh -NoProfile -File ./Silmoon.Tools.Installer.WindowsMaker.Tests/Scripts/Verify-DemoArtifact.ps1 -ProjectFile ./Silmoon.Tools.Installer.WindowsMaker/Examples/Silmoon.Trader.installer.json -BuildDirectory '<成功构建目录>'
 ```
 
 UI 测试会操作新工具并编辑示例版本/架构，结束时保存版本 `0.1.0-preview.2` 和 x64。使用新的截图/另存为目录，避免原生文件覆盖提示。只针对新工具进程运行，不能传入交易客户端进程。
 
-验证时使用 WinApp CLI 的开发注册启动 GUI，没有导入证书信任。Windows Sandbox 未启用，因此上述 UI 测试在开发机进行。完成开发注册后，可通过 `Silmoon.Tools.WindowsInstallerMaker/Scripts/Start-WindowsInstallerMaker.ps1` 或开始菜单再次打开工具。
+2026-10-19 首版验证使用 WinApp CLI 的开发注册启动 GUI，没有导入证书信任。Windows Sandbox 未启用，因此当时的 UI 测试在开发机进行。当前项目已改为 unpackaged，使用 `Silmoon.Tools.Installer.WindowsMaker/Scripts/Start-WindowsMaker.ps1` 启动；当前验证见上文 2026-10-22 记录。
 
 ## 未验收和保护边界
 

@@ -1,8 +1,8 @@
-<Solution>
+﻿<Solution>
   <Configurations>
+    <Platform Name="Any CPU" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="Silmoon.Tools.WindowsInstallerMaker/Silmoon.Tools.WindowsInstallerMaker.csproj" />
   <Folder Name="/解决方案项/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
@@ -10,6 +10,9 @@
     <File Path="AGENTS.md" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="Silmoon.Tools.WindowsInstallerMaker.Core/Silmoon.Tools.WindowsInstallerMaker.Core.csproj" />
-  <Project Path="Silmoon.Tools.WindowsInstallerMaker.Tests/Silmoon.Tools.WindowsInstallerMaker.Tests.csproj" />
+  <Project Path="Silmoon.Tools.Installer.WindowsMaker.Core/Silmoon.Tools.Installer.WindowsMaker.Core.csproj" />
+  <Project Path="Silmoon.Tools.Installer.WindowsMaker.Tests/Silmoon.Tools.Installer.WindowsMaker.Tests.csproj" />
+  <Project Path="Silmoon.Tools.Installer.WindowsMaker/Silmoon.Tools.Installer.WindowsMaker.csproj">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
